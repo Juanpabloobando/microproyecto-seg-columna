@@ -1,5 +1,9 @@
-# Data
-data/
+# Ignore all data files
+data/*
+
+# BUT allow DVC tracking files
+!data/**/*.dvc
+!data/**/.gitkeep
 
 # Python
 __pycache__/
@@ -10,5 +14,6 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# DVC
+# DVC cache
 .dvc/cache/
+

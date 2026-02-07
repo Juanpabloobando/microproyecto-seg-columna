@@ -1,0 +1,5 @@
+outs:
+- md5: 9a014e0767d2e17e4f0f81b435e779f3
+  size: 2903567
+  hash: md5
+  path: student_depression_dataset.csv.xls
