@@ -24,7 +24,7 @@ export interface StudentInput {
   "Dietary Habits": string;
   Degree: string;
   "Work/Study Hours": number;
-  "Financial Stress": number;
+  "Financial Stress": string;
   "Family History of Mental Illness": string;
   "Have you ever had suicidal thoughts ?": string;
 }

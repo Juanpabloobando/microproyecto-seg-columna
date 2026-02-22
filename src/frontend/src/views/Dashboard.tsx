@@ -68,7 +68,7 @@ export default function Dashboard() {
         "Dietary Habits": dietaryHabits,
         Degree: degree,
         "Work/Study Hours": workStudyHours[0],
-        "Financial Stress": financialStress,
+        "Financial Stress": String(financialStress),
         "Family History of Mental Illness": familyHistory,
         "Have you ever had suicidal thoughts ?": suicidalThoughts,
       });
