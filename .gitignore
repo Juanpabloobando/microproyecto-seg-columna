@@ -1,19 +1,38 @@
-# Ignore all data files
-data/*
+# Sistema Predictivo de Riesgo Depresivo en Estudiantes Universitarios
 
-# BUT allow DVC tracking files
-!data/**/*.dvc
-!data/**/.gitkeep
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build
+frontend/dist/
+src/frontend/dist/
 
 # Python
 __pycache__/
-*.pyc
-venv/
+*.py[cod]
+*.egg-info/
+dist/
+build/
 .venv/
+venv/
+env/
 
-# Jupyter
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 .ipynb_checkpoints/
 
-# DVC cache
-.dvc/cache/
+# OS
+.DS_Store
+Thumbs.db
 
+# Model artifacts (regenerar con train_model.py)
+backend/models/*.joblib
+src/backend/models/*.joblib
+
+# Temp files
+*.tmp
+*.log
