@@ -1,13 +1,3 @@
-# Sistema Predictivo de Riesgo Depresivo en Estudiantes Universitarios
-
-# Node
-node_modules/
-frontend/node_modules/
-
-# Build
-frontend/dist/
-src/frontend/dist/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -18,12 +8,18 @@ build/
 venv/
 env/
 
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build
+frontend/dist/
+
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-.ipynb_checkpoints/
 
 # OS
 .DS_Store
@@ -31,7 +27,6 @@ Thumbs.db
 
 # Model artifacts (regenerar con train_model.py)
 backend/models/*.joblib
-src/backend/models/*.joblib
 
 # Temp files
 *.tmp

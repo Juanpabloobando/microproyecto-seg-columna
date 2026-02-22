@@ -29,7 +29,7 @@ import joblib
 # Rutas
 # ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_DIR = BASE_DIR.parent
+PROJECT_DIR = BASE_DIR.parent.parent
 DATA_PATH = PROJECT_DIR / "data" / "student_depression.csv"
 MODEL_DIR = BASE_DIR / "models"
 MODEL_PATH = MODEL_DIR / "logistic_a.joblib"

@@ -22,7 +22,7 @@ from model_service import predict_single, predict_batch, MODEL_A_COLUMNS, get_mo
 # Configuración
 # ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_DIR = BASE_DIR.parent
+PROJECT_DIR = BASE_DIR.parent.parent
 DATA_PATH = PROJECT_DIR / "data" / "student_depression.csv"
 
 app = FastAPI(
@@ -256,7 +256,7 @@ def get_analytics():
             "pct": round(len(sleep_risk) / total_students * 100, 1),
         })
 
-        high_financial = raw_df[raw_df["Financial Stress"] >= 4]
+        high_financial = raw_df[pd.to_numeric(raw_df["Financial Stress"], errors="coerce") >= 4]
         factors.append({
             "name": "Estrés Financiero Alto",
             "value": len(high_financial),
