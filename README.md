@@ -122,9 +122,9 @@ Fuente: [Kaggle](https://www.kaggle.com/datasets/hopesb/student-depression-datas
 
 ## Equipo
 
-- Diana Lorena Giraldo Arboleda — d.giraldoa@uniandes.edu.co
-- Elvis Raúl Hernández Cáceres — er.hernandez@uniandes.edu.co
-- Julián David Florido González — j.floridog@uniandes.edu.co
-- Juan Pablo Obando Álvarez — jp.obandoa1@uniandes.edu.co
+- Diana Lorena Giraldo Arboleda — 
+- Elvis Raúl Hernández Cáceres — 
+- Julián David Florido González — 
+- Juan Pablo Obando Álvarez — 
 
 Universidad de los Andes — 2026
