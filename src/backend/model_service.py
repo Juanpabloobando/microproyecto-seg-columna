@@ -20,7 +20,7 @@ from pathlib import Path
 # Configuración de rutas
 # ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "models" / "logistic_a.joblib"
+MODEL_PATH = BASE_DIR / "models" / "logistic_b.joblib"
 
 # ──────────────────────────────────────────────
 # Carga del modelo
@@ -61,9 +61,9 @@ def _load_model():
 
 
 # ──────────────────────────────────────────────
-# Columnas del Modelo A (16 variables, incluye ideación suicida)
+# Columnas del Modelo B (15 variables, excluye ideación suicida)
 # ──────────────────────────────────────────────
-MODEL_A_COLUMNS = [
+MODEL_B_COLUMNS = [
     "Gender",
     "Age",
     "City",
@@ -76,7 +76,6 @@ MODEL_A_COLUMNS = [
     "Sleep Duration",
     "Dietary Habits",
     "Degree",
-    "Have you ever had suicidal thoughts ?",
     "Work/Study Hours",
     "Financial Stress",
     "Family History of Mental Illness",
@@ -88,7 +87,7 @@ def predict_single(student_data: dict) -> dict:
     Realiza una predicción para un solo estudiante.
 
     Args:
-        student_data: diccionario con las variables del modelo A.
+        student_data: diccionario con las variables del modelo B.
 
     Returns:
         dict con probability, risk_level, risk_label, contributing_factors.
@@ -97,11 +96,11 @@ def predict_single(student_data: dict) -> dict:
 
     df = pd.DataFrame([student_data])
 
-    for col in MODEL_A_COLUMNS:
+    for col in MODEL_B_COLUMNS:
         if col not in df.columns:
             raise ValueError(f"Falta la columna requerida: {col}")
 
-    df = df[MODEL_A_COLUMNS]
+    df = df[MODEL_B_COLUMNS]
 
     probability = float(model.predict_proba(df)[0][1]) * 100
     prediction = int(model.predict(df)[0])
@@ -124,7 +123,7 @@ def predict_batch(df: pd.DataFrame) -> pd.DataFrame:
     Realiza predicciones para un DataFrame completo.
 
     Args:
-        df: DataFrame con las columnas del modelo A.
+        df: DataFrame con las columnas del modelo B.
 
     Returns:
         DataFrame original con columnas adicionales:
@@ -132,7 +131,7 @@ def predict_batch(df: pd.DataFrame) -> pd.DataFrame:
     """
     model = get_model()
 
-    X = df[MODEL_A_COLUMNS].copy()
+    X = df[MODEL_B_COLUMNS].copy()
 
     probabilities = model.predict_proba(X)[:, 1] * 100
     predictions = model.predict(X)

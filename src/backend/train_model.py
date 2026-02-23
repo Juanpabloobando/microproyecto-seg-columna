@@ -1,14 +1,14 @@
 """
-train_model.py — Entrena y serializa el modelo Logistic Regression A.
+train_model.py — Entrena y serializa el modelo Logistic Regression B.
 
-Modelo A: Incluye todas las 16 variables predictoras
-(incluyendo ideación suicida). Mejor F1=0.867 según MLflow.
+Modelo B: Excluye la variable 'Have you ever had suicidal thoughts ?'
+ya que se considera un criterio diagnóstico.
 
 Uso:
     python train_model.py
 
 Genera:
-    backend/models/logistic_a.joblib
+    backend/models/logistic_b.joblib
 """
 
 import os
@@ -32,13 +32,13 @@ BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent.parent
 DATA_PATH = PROJECT_DIR / "data" / "student_depression.csv"
 MODEL_DIR = BASE_DIR / "models"
-MODEL_PATH = MODEL_DIR / "logistic_a.joblib"
+MODEL_PATH = MODEL_DIR / "logistic_b.joblib"
 
 
 def main():
     print("=" * 60)
-    print("  Entrenamiento del Modelo Logistic Regression A")
-    print("  (16 variables — incluye ideación suicida)")
+    print("  Entrenamiento del Modelo Logistic Regression B")
+    print("  (15 variables — excluye ideación suicida)")
     print("=" * 60)
 
     # ── 1. Cargar datos ──
@@ -57,10 +57,10 @@ def main():
     # ── 3. Separar variables ──
     y = df["Depression"]
 
-    columns_to_drop = ["id", "Depression"]
+    columns_to_drop = ["id", "Depression", "Have you ever had suicidal thoughts ?"]
     X = df.drop(columns=[c for c in columns_to_drop if c in df.columns])
 
-    print(f"Variables predictoras (Modelo A): {list(X.columns)}")
+    print(f"Variables predictoras (Modelo B): {list(X.columns)}")
     print(f"Variable objetivo: Depression (0=No, 1=Sí)")
     print(f"Distribución: {dict(y.value_counts())}")
 
@@ -97,8 +97,10 @@ def main():
 
     # ── 7. Evaluar ──
     y_pred = model.predict(X_test)
+    y_prob = model.predict_proba(X_test)[:, 1]
+
     print("\n" + "=" * 40)
-    print("  RESULTADOS - Logistic Regression A")
+    print("  RESULTADOS - Logistic Regression B")
     print("=" * 40)
     print(classification_report(y_test, y_pred, target_names=["No Depresión", "Depresión"]))
     print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")

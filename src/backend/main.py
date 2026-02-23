@@ -16,7 +16,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from model_service import predict_single, predict_batch, MODEL_A_COLUMNS, get_model
+from model_service import predict_single, predict_batch, MODEL_B_COLUMNS, get_model
 
 # ──────────────────────────────────────────────
 # Configuración
@@ -61,7 +61,7 @@ def _get_predicted_dataset() -> pd.DataFrame:
     global _df_predicted_cache
     if _df_predicted_cache is None:
         df = _load_dataset().copy()
-        cols_to_drop = ["id", "Depression"]
+        cols_to_drop = ["id", "Depression", "Have you ever had suicidal thoughts ?"]
         X = df.drop(columns=[c for c in cols_to_drop if c in df.columns])
         _df_predicted_cache = predict_batch(X)
         _df_predicted_cache["id"] = df["id"]
@@ -88,7 +88,6 @@ class StudentInput(BaseModel):
     Work_Study_Hours: float = Field(alias="Work/Study Hours")
     Financial_Stress: str = Field(alias="Financial Stress")
     Family_History: str = Field(alias="Family History of Mental Illness")
-    Suicidal_Thoughts: str = Field(alias="Have you ever had suicidal thoughts ?")
 
     model_config = {"populate_by_name": True}
 
@@ -134,7 +133,6 @@ def predict(student: StudentInput):
             "Work/Study Hours": student.Work_Study_Hours,
             "Financial Stress": str(student.Financial_Stress),
             "Family History of Mental Illness": student.Family_History,
-            "Have you ever had suicidal thoughts ?": student.Suicidal_Thoughts,
         }
         result = predict_single(data)
         return result

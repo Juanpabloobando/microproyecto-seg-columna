@@ -27,7 +27,6 @@ export default function Dashboard() {
   const [workStudyHours, setWorkStudyHours] = useState([5]);
   const [financialStress, setFinancialStress] = useState(2);
   const [familyHistory, setFamilyHistory] = useState('No');
-  const [suicidalThoughts, setSuicidalThoughts] = useState('No');
 
   // ── Estado de resultados ──
   const [showResults, setShowResults] = useState(false);
@@ -70,7 +69,6 @@ export default function Dashboard() {
         "Work/Study Hours": workStudyHours[0],
         "Financial Stress": String(financialStress),
         "Family History of Mental Illness": familyHistory,
-        "Have you ever had suicidal thoughts ?": suicidalThoughts,
       });
       setResult(prediction);
       setShowResults(true);
@@ -292,31 +290,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Suicidal Thoughts */}
-            <div className="space-y-2">
-              <Label className="text-gray-700 font-medium flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4" />
-                ¿Ha tenido pensamientos suicidas?
-              </Label>
-              <div className="flex gap-2">
-                {['Yes', 'No'].map((v) => (
-                  <button
-                    key={v}
-                    onClick={() => setSuicidalThoughts(v)}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                      suicidalThoughts === v
-                        ? v === 'Yes'
-                          ? 'bg-red-500 text-white shadow-md'
-                          : 'bg-green-500 text-white shadow-md'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    {v === 'Yes' ? 'Sí' : 'No'}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Work/Study Hours */}
             <div className="space-y-3">
               <div className="flex justify-between items-center">
@@ -401,7 +374,7 @@ export default function Dashboard() {
               <div className="w-1 h-6 bg-red-500 rounded-full"></div>
               <CardTitle className="text-xl text-gray-800">Predicción de Riesgo</CardTitle>
               <Badge className="ml-auto bg-blue-100 text-blue-700 text-xs">
-                Modelo: Logistic Regression A
+                Modelo: Logistic Regression B
               </Badge>
             </div>
           </CardHeader>

@@ -26,7 +26,6 @@ export interface StudentInput {
   "Work/Study Hours": number;
   "Financial Stress": string;
   "Family History of Mental Illness": string;
-  "Have you ever had suicidal thoughts ?": string;
 }
 
 export interface PredictionResult {
