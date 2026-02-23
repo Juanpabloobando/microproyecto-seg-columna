@@ -15,9 +15,9 @@ export default function Dashboard() {
   const [gender, setGender] = useState('Male');
   const [age, setAge] = useState([22]);
   const [city, setCity] = useState('Bangalore');
-  const [profession, setProfession] = useState('Student');
+  const [profession] = useState('Student');
   const [academicPressure, setAcademicPressure] = useState(3);
-  const [workPressure, setWorkPressure] = useState(0);
+  const [workPressure] = useState(0);
   const [cgpa, setCgpa] = useState([5.0]);
   const [studySatisfaction, setStudySatisfaction] = useState(3);
   const [jobSatisfaction, setJobSatisfaction] = useState(0);
@@ -48,7 +48,7 @@ export default function Dashboard() {
     'Less than 5 hours', '5-6 hours', '7-8 hours', 'More than 8 hours',
   ];
   const pressureLevels = [1, 2, 3, 4, 5];
-  const dietOptions = columns?.dietary_habits ?? ['Healthy', 'Moderate', 'Unhealthy'];
+  const dietOptions = columns?.dietary_habits ?? ['Healthy', 'Moderate', 'Others', 'Unhealthy'];
 
   const calculateRisk = async () => {
     setLoading(true);
@@ -251,18 +251,18 @@ export default function Dashboard() {
                   <Utensils className="w-4 h-4" />
                   Hábitos Alimentarios
                 </Label>
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
                   {dietOptions.map((d) => (
                     <button
                       key={d}
                       onClick={() => setDietaryHabits(d)}
-                      className={`flex-1 px-2 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`flex-1 min-w-[70px] px-2 py-2 rounded-lg text-xs font-medium transition-all ${
                         dietaryHabits === d
                           ? 'bg-blue-600 text-white shadow-md'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
-                      {d === 'Healthy' ? 'Saludable' : d === 'Moderate' ? 'Moderado' : 'No saludable'}
+                      {d === 'Healthy' ? 'Saludable' : d === 'Moderate' ? 'Moderado' : d === 'Others' ? 'Otros' : 'No saludable'}
                     </button>
                   ))}
                 </div>

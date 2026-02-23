@@ -41,6 +41,41 @@ export default function Estudiantes() {
     return () => clearTimeout(timer);
   }, [fetchStudents, searchTerm]);
 
+  const handleExportCSV = () => {
+    if (!data || !data.students || data.students.length === 0) return;
+    
+    // Crear cabeceras
+    const headers = ['ID', 'Género', 'Edad', 'Programa', 'CGPA', 'Presión Académica', 'Probabilidad', 'Nivel de Riesgo'];
+    
+    // Crear filas
+    const rows = data.students.map(s => [
+      s.id,
+      s.gender,
+      s.age,
+      s.degree,
+      s.cgpa,
+      s.academic_pressure,
+      `${s.probability}%`,
+      s.risk_level
+    ]);
+    
+    // Unir cabeceras y filas con comas y saltos de línea
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+    
+    // Crear y descargar archivo
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `estudiantes_riesgo_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const getRiskBadge = (risk: string) => {
     switch (risk) {
       case 'high':
@@ -118,9 +153,9 @@ export default function Estudiantes() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <CardTitle className="text-xl">Lista de Estudiantes</CardTitle>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleExportCSV}>
                 <Download className="w-4 h-4 mr-2" />
-                Exportar
+                Exportar CSV
               </Button>
             </div>
           </div>

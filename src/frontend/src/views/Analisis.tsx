@@ -14,9 +14,9 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-import { TrendingUp, Users, AlertTriangle, Loader2 } from 'lucide-react';
-import { getAnalytics } from '@/api/client';
-import type { AnalyticsResponse } from '@/api/client';
+import { Activity, Users, AlertTriangle, TrendingUp, Download, Loader2 } from 'lucide-react';
+import { getAnalytics } from '../api/client';
+import type { AnalyticsResponse } from '../api/client';
 
 const COLORS = ['#ef4444', '#f97316', '#eab308', '#3b82f6'];
 
@@ -51,6 +51,52 @@ export default function Analisis() {
     );
   }
 
+  const handleExportCSV = () => {
+    if (!data) return;
+
+    // Crear contenido CSV
+    const lines = [];
+    lines.push('REPORTE DE ANALÍTICAS - SISTEMA DE ALERTA TEMPRANA');
+    lines.push(`Fecha: ${new Date().toLocaleDateString()}`);
+    lines.push('');
+
+    lines.push('RESUMEN GENERAL');
+    lines.push(`Total Estudiantes,${data.total_students}`);
+    lines.push(`Probabilidad Promedio,${data.avg_probability}%`);
+    lines.push('');
+
+    lines.push('DISTRIBUCIÓN DE RIESGO');
+    lines.push('Nivel,Cantidad,Porcentaje');
+    lines.push(`Alto Riesgo,${data.risk_distribution.high},${((data.risk_distribution.high / data.total_students) * 100).toFixed(1)}%`);
+    lines.push(`Riesgo Moderado,${data.risk_distribution.medium},${((data.risk_distribution.medium / data.total_students) * 100).toFixed(1)}%`);
+    lines.push(`Bajo Riesgo,${data.risk_distribution.low},${((data.risk_distribution.low / data.total_students) * 100).toFixed(1)}%`);
+    lines.push('');
+
+    lines.push('RIESGO POR PROGRAMA (Top 10)');
+    lines.push('Programa,Total,Alto Riesgo,Moderado,Bajo,Porcentaje Alto Riesgo');
+    data.risk_by_degree.slice(0, 10).forEach(d => {
+      lines.push(`"${d.degree}",${d.total},${d.high},${d.medium},${d.low},${d.high_pct}%`);
+    });
+    lines.push('');
+
+    lines.push('ESTUDIANTES CON MAYOR RIESGO (Top 5)');
+    lines.push('ID,Programa,Probabilidad,Factor Principal');
+    data.recent_alerts.forEach(a => {
+      lines.push(`${a.id},"${a.degree}",${a.probability}%,${a.main_factor}`);
+    });
+
+    // Crear y descargar archivo
+    const csvContent = lines.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `analiticas_riesgo_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const riskDist = data.risk_distribution;
   const totalStudents = data.total_students;
   const highPct = totalStudents > 0 ? ((riskDist.high / totalStudents) * 100).toFixed(1) : '0';
@@ -64,6 +110,26 @@ export default function Analisis() {
 
   return (
     <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            <Activity className="w-6 h-6 text-blue-600" />
+            Panel de Analíticas
+          </h1>
+          <p className="text-gray-500 mt-1">
+            Información agregada y patrones de riesgo en la población estudiantil
+          </p>
+        </div>
+        <button 
+          onClick={handleExportCSV}
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium"
+        >
+          <Download className="w-4 h-4" />
+          Exportar Reporte CSV
+        </button>
+      </div>
+
       {/* Page Title */}
       <div className="flex items-center justify-between">
         <div>
