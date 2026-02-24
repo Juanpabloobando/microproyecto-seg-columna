@@ -1,4 +1,4 @@
-# Sistema Predictivo de Riesgo Depresivo en Estudiantes Universitarios
+# Sistema Predictivo de Riesgo Depresivo en Estudiantes Universitarios #
 
 Sistema de alerta temprana que utiliza Machine Learning para estimar el riesgo de depresión en estudiantes universitarios, basado en variables académicas, demográficas y de estilo de vida.
 
