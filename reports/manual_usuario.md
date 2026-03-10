@@ -4,7 +4,7 @@
 
 El **Sistema de Alerta Temprana de Riesgo Depresivo** es una aplicación web diseñada para el departamento de Bienestar Estudiantil de una universidad. Permite estimar la probabilidad de depresión en estudiantes universitarios utilizando un modelo de Machine Learning (Regresión Logística B optimizada), basado en 15 variables académicas, demográficas y de estilo de vida.
 
-**URL de acceso:** *(se actualizará tras el despliegue en Railway)*
+**URL de acceso:** https://microproyecto-seg-columna-production.up.railway.app
 
 ---
 

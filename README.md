@@ -32,7 +32,7 @@ Sistema de alerta temprana que utiliza Machine Learning para estimar el riesgo d
 
 ## Aplicación desplegada
 
-**URL de producción:** *(se actualizará tras el despliegue en Railway)*
+**URL de producción:** https://microproyecto-seg-columna-production.up.railway.app
 
 ## Requisitos (desarrollo local)
 
