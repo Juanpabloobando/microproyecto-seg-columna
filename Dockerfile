@@ -23,8 +23,8 @@ COPY data/student_depression.csv /app/data/student_depression.csv
 # Copy built frontend into backend/static
 COPY --from=frontend-build /app/frontend/dist ./static/
 
-# Expose port
+# Expose port (fallback for local Docker)
 EXPOSE 8000
 
-# Start server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start server using the PORT environment variable injected by Railway
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
