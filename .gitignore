@@ -26,7 +26,8 @@ frontend/dist/
 Thumbs.db
 
 # Model artifacts (regenerar con train_model.py)
-backend/models/*.joblib
+# NOTA: Para despliegue en Railway se necesita el .joblib en el repo
+# src/backend/models/*.joblib
 
 # Temp files
 *.tmp

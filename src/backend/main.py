@@ -10,6 +10,8 @@ Endpoints:
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional
 import pandas as pd
@@ -23,7 +25,12 @@ from model_service import predict_single, predict_batch, MODEL_B_COLUMNS, get_mo
 # ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent.parent
-DATA_PATH = PROJECT_DIR / "data" / "student_depression.csv"
+STATIC_DIR = BASE_DIR / "static"
+
+# En Docker, el dataset se copia a /app/data/; en local, está en ../../data/
+_data_docker = BASE_DIR / "data" / "student_depression.csv"
+_data_local = PROJECT_DIR / "data" / "student_depression.csv"
+DATA_PATH = _data_docker if _data_docker.exists() else _data_local
 
 app = FastAPI(
     title="Sistema Predictivo de Riesgo Depresivo",
@@ -356,3 +363,18 @@ def get_dataset_columns():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ──────────────────────────────────────────────
+# Servir frontend estático (producción)
+# ──────────────────────────────────────────────
+if STATIC_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
+
+    @app.get("/{full_path:path}")
+    def serve_frontend(full_path: str):
+        """Sirve el frontend React. Cualquier ruta no-API devuelve index.html."""
+        file_path = STATIC_DIR / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(file_path)
+        return FileResponse(STATIC_DIR / "index.html")
